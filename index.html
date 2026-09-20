@@ -255,13 +255,13 @@
     <span class="corner-mark tl"></span><span class="corner-mark br"></span>
     <div class="opening-content">
       <div class="opening-emblem">✦</div>
-      <div class="eyebrow">Election Night 2026</div>
+      <div class="eyebrow">Election Night 2025</div>
       <div class="brand">ID42NER <span>SUMUT</span></div>
       <div class="opening-rule"></div>
       <div class="opening-title">PEMILIHAN KETUA CHAPTER<br>SUMATERA UTARA</div>
       <div class="opening-sub">MALAM APRESIASI <b>•</b> KEBERSAMAAN <b>•</b> PERUBAHAN</div>
     </div>
-    <div class="opening-foot">ID42NER SUMATERA UTARA <span>—</span> PRESENTASI PEMILIHAN <span>—</span> 2026</div>
+    <div class="opening-foot">ID42NER SUMATERA UTARA <span>—</span> PRESENTASI PEMILIHAN <span>—</span> 2025</div>
   </section>
 
   <section class="screen info-screen" id="ready">
@@ -368,16 +368,30 @@
     }
 
     function candidateMode(direction) {
+      const candidateIsVisible = $('candidate').classList.contains('active');
+
+      if (!candidateIsVisible) {
+        current = direction === 'next' ? 0 : candidates.length - 1;
+        renderCandidate();
+      } else if (direction === 'next') {
+        nextCandidate();
+      } else if (direction === 'previous') {
+        previousCandidate();
+      }
+
       showScreen('candidate');
-      if (direction === 'next') nextCandidate();
-      if (direction === 'previous') previousCandidate();
-      renderCandidate();
     }
 
+    // Tidak ada timer atau auto-slide. Semua perpindahan dikendalikan keyboard.
     renderCandidate();
     showScreen('opening');
 
     document.addEventListener('keydown', (event) => {
+      const navigationKeys = ['ArrowRight', 'ArrowLeft', '1', '2', '3', '4'];
+
+      if (!navigationKeys.includes(event.key)) return;
+      event.preventDefault();
+
       if (event.key === 'ArrowRight') candidateMode('next');
       else if (event.key === 'ArrowLeft') candidateMode('previous');
       else if (event.key === '1') showScreen('opening');
