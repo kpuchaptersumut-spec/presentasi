@@ -207,9 +207,9 @@
       background: rgba(255,255,255,.05);
       box-shadow: 24px 24px 0 rgba(215,25,56,.2), 0 30px 80px #000;
     }
-    .photo-box { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(145deg,#292b31,#0d0e12); }
-    .photo-box::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,6,9,.65), transparent 48%), linear-gradient(120deg, rgba(215,25,56,.14), transparent 40%); }
-    .photo-box img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.88) contrast(1.06); }
+    .photo-box { position: relative; width: 100%; height: 100%; overflow: hidden; display: grid; place-items: center; background: linear-gradient(145deg,#292b31,#0d0e12); }
+    .photo-box::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(5,6,9,.38), transparent 48%), linear-gradient(120deg, rgba(215,25,56,.10), transparent 40%); }
+    .photo-box img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; filter: saturate(.88) contrast(1.06); }
     .placeholder { display: grid; height: 100%; place-items: center; color: #484c55; font-size: 110px; }
     .candidate-info { position: relative; z-index: 3; max-width: 680px; margin-left: clamp(45px, 7vw, 115px); }
     .candidate-info .eyebrow { margin-bottom: 23px; }
@@ -334,8 +334,6 @@
 
     const $ = (id) => document.getElementById(id);
     let current = 0;
-    let slideTimer;
-    let sequenceTimer;
 
     function showScreen(id) {
       document.querySelectorAll('.screen').forEach((screen) => screen.classList.remove('active'));
@@ -369,45 +367,23 @@
       renderCandidate();
     }
 
-    function stopTimers() {
-      clearInterval(slideTimer);
-      clearTimeout(sequenceTimer);
-    }
-
     function candidateMode(direction) {
-      stopTimers();
       showScreen('candidate');
       if (direction === 'next') nextCandidate();
       if (direction === 'previous') previousCandidate();
       renderCandidate();
-      slideTimer = setInterval(nextCandidate, 7000);
-    }
-
-    function startSequence() {
-      stopTimers();
-      showScreen('opening');
-      sequenceTimer = setTimeout(() => {
-        showScreen('ready');
-        sequenceTimer = setTimeout(() => {
-          showScreen('voting');
-          sequenceTimer = setTimeout(() => {
-            showScreen('processing');
-            sequenceTimer = setTimeout(() => candidateMode(), 4500);
-          }, 5500);
-        }, 4500);
-      }, 6500);
     }
 
     renderCandidate();
-    startSequence();
+    showScreen('opening');
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowRight') candidateMode('next');
       else if (event.key === 'ArrowLeft') candidateMode('previous');
-      else if (event.key === '1') { stopTimers(); showScreen('opening'); }
-      else if (event.key === '2') { stopTimers(); showScreen('ready'); }
-      else if (event.key === '3') { stopTimers(); showScreen('voting'); }
-      else if (event.key === '4') { stopTimers(); showScreen('processing'); }
+      else if (event.key === '1') showScreen('opening');
+      else if (event.key === '2') showScreen('ready');
+      else if (event.key === '3') showScreen('voting');
+      else if (event.key === '4') showScreen('processing');
     });
   </script>
 </body>
