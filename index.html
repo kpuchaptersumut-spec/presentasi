@@ -1,50 +1,414 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ID42NER SUMUT — Malam Pemilihan</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root{--red:#d71938;--red-light:#f13b55;--ink:#080a0e;--muted:#a9adb5;--white:#f5f4f1;--line:rgba(255,255,255,.16)}
-*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden}body{background:var(--ink);color:var(--white);font-family:Montserrat,Arial,sans-serif}
-.screen{position:relative;display:none;width:100vw;height:100vh;overflow:hidden}.screen.active{display:flex}.screen:after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:110px 110px;opacity:.35}.eyebrow{font-size:10px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--red-light)}
-/* Opening */
-#opening{align-items:center;justify-content:center;text-align:center;background:#090b0f radial-gradient(circle at 50% 43%,#39121d 0,#160c12 25%,transparent 56%),linear-gradient(115deg,#080a0e,#160b10 68%,#08090c)}
-#opening:before{content:"";position:absolute;width:75vw;height:75vw;border:1px solid rgba(241,59,85,.28);border-radius:50%;box-shadow:0 0 0 42px rgba(215,25,56,.025),0 0 120px rgba(215,25,56,.2),inset 0 0 120px rgba(215,25,56,.12);animation:slowSpin 24s linear infinite}
-#opening:after{background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(to bottom,black,transparent 75%)}
-.opening-content{position:relative;z-index:2;animation:rise 1.1s ease both}.opening-mark{width:74px;height:74px;margin:0 auto 25px;border:1px solid rgba(255,255,255,.42);border-radius:50%;display:grid;place-items:center;color:var(--red-light);font-size:24px;box-shadow:0 0 35px rgba(215,25,56,.35)}.opening-mark:after{content:"";position:absolute;width:92px;height:92px;border:1px solid rgba(255,255,255,.1);border-radius:50%}.brand{font-size:clamp(46px,8.8vw,126px);font-weight:900;letter-spacing:-6px;line-height:.94}.brand span{color:var(--red-light)}.opening-rule{width:130px;height:3px;margin:29px auto;background:var(--red-light);box-shadow:0 0 24px var(--red)}.opening-title{font-size:clamp(14px,1.7vw,24px);font-weight:700;letter-spacing:5px;line-height:1.6}.opening-sub{margin-top:20px;color:#c2c5cb;font-size:10px;letter-spacing:3px}.opening-sub b{color:var(--red-light);margin:0 9px}.opening-foot{position:absolute;z-index:5;bottom:30px;left:0;right:0;color:#737985;font-size:9px;letter-spacing:3px}.opening-foot span{color:var(--red-light);margin:0 12px}
-/* Live status */
-#dashboard{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 44%,rgba(150,17,43,.4),transparent 45%),#080a0e}#dashboard:before{content:"LIVE";position:absolute;right:-3vw;bottom:-13vw;color:transparent;font-size:31vw;font-weight:900;letter-spacing:-2vw;-webkit-text-stroke:1px rgba(255,255,255,.055)}.live-screen{position:relative;z-index:2;animation:rise .8s ease both}.live-mark{position:relative;width:106px;height:106px;margin:0 auto 34px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:grid;place-items:center;color:var(--red-light);font-size:30px;box-shadow:0 0 0 15px rgba(215,25,56,.04),0 0 65px rgba(215,25,56,.32)}.live-mark:before,.live-mark:after{content:"";position:absolute;border:1px solid rgba(241,59,85,.28);border-radius:50%;animation:ring 2.7s infinite}.live-mark:before{inset:-16px}.live-mark:after{inset:-31px;opacity:.45;animation-delay:.7s}.live-screen h1{margin-top:20px;font-size:clamp(35px,6vw,78px);letter-spacing:-4px;line-height:1.02}.live-screen p{margin-top:20px;color:var(--muted);font-size:12px;letter-spacing:2px}.live-line{width:125px;height:3px;margin:30px auto 0;background:var(--red-light);box-shadow:0 0 25px var(--red)}
-/* Candidate */
-#candidate{align-items:center;padding:5vh 9vw;background:linear-gradient(115deg,#080a0e 0%,#0d0e13 52%,#1c0b11 100%)}#candidate:before{content:"";position:absolute;right:-13vw;top:-25vh;width:62vw;height:150vh;transform:skewX(-16deg);background:linear-gradient(145deg,transparent 27%,rgba(215,25,56,.18) 70%,rgba(215,25,56,.03));border-left:1px solid rgba(241,59,85,.16)}.candidate-top{position:absolute;z-index:2;left:9vw;right:9vw;top:30px;display:flex;justify-content:space-between;align-items:center;color:#aeb1b8;font-size:9px;letter-spacing:3px;text-transform:uppercase}.candidate-top strong{color:#fff;font-size:13px;letter-spacing:1px}.candidate-top b{color:var(--red-light);font-weight:800}.candidate-frame{position:relative;z-index:1;width:min(36vw,530px);height:min(72vh,680px);min-height:390px;padding:9px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.045);box-shadow:25px 25px 0 rgba(215,25,56,.2),0 30px 80px #000;transform:rotate(-1.2deg)}.photo-box{position:relative;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#292b31,#0d0e12);display:flex;align-items:center;justify-content:center}.photo-box:before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(to top,rgba(5,6,9,.58),transparent 42%),linear-gradient(120deg,rgba(215,25,56,.12),transparent 38%);pointer-events:none}.photo-box img{width:100%;height:100%;object-fit:cover;filter:saturate(.88) contrast(1.06)}.placeholder{font-size:110px;color:#484c55}.candidate-info{position:relative;z-index:2;margin-left:clamp(45px,7vw,115px);max-width:680px}.live-badge{display:flex;align-items:center;gap:9px;margin-bottom:25px;color:#f0f1f2;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase}.live-badge i{width:7px;height:7px;border-radius:50%;background:#49d487;box-shadow:0 0 12px #49d487;animation:blink 1.3s infinite}.candidate-info .eyebrow{margin-bottom:22px}.candidate-name{font-size:clamp(43px,6vw,86px);line-height:1.02;letter-spacing:-4px;font-weight:900;max-width:700px;animation:contentIn .65s ease both}.candidate-code{display:inline-block;margin-top:29px;padding:11px 0 11px 17px;border-left:3px solid var(--red-light);color:var(--muted);font-size:12px;letter-spacing:2px}.candidate-code strong{display:block;margin-top:6px;color:#fff;font-size:18px;letter-spacing:1px}.candidate-number{display:flex;align-items:center;gap:13px;margin-top:61px;color:#7d828c;font-size:10px;font-weight:700;letter-spacing:3px}.candidate-number b{color:#fff;font-size:46px;letter-spacing:-3px}.candidate-number i{font-style:normal;color:var(--red-light);font-size:22px}.candidate-line{width:185px;height:2px;margin-top:22px;background:var(--red-light);box-shadow:0 0 16px var(--red);transform-origin:left;animation:grow .8s ease both}.candidate-status{display:flex;align-items:center;gap:12px;margin-top:38px;color:#c7cad0;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}.candidate-status:before{content:"";width:36px;height:2px;background:var(--red-light)}
-@keyframes rise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}@keyframes contentIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}@keyframes grow{from{transform:scaleX(0)}}@keyframes slowSpin{to{transform:rotate(360deg)}}@keyframes blink{50%{opacity:.25}}@keyframes ring{0%,100%{transform:scale(.94);opacity:.35}50%{transform:scale(1.05);opacity:0}}
-@media(max-width:800px){.candidate-frame{width:38vw;height:59vh;min-height:300px}.candidate-name{font-size:40px}.candidate-number{margin-top:38px}.candidate-top{left:6vw;right:6vw}}
-@media(max-width:560px){.brand{letter-spacing:-3px}.opening-title{letter-spacing:2px}.opening-sub{font-size:8px}.candidate-top{top:18px;font-size:7px}.candidate-frame{width:35vw;height:48vh;min-height:260px}.candidate-info{margin-left:25px}.candidate-name{font-size:30px;letter-spacing:-1px}.candidate-code{font-size:9px;margin-top:20px}.candidate-number{margin-top:28px}.candidate-number b{font-size:30px}.candidate-status{margin-top:23px;font-size:8px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ID42NER SUMUT — Pemilihan Ketua Chapter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #08090c;
+      --deep: #110b10;
+      --red: #d71938;
+      --red-bright: #f0445b;
+      --white: #f5f4f1;
+      --soft: #c3c5ca;
+      --muted: #858993;
+      --line: rgba(255, 255, 255, .16);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: Montserrat, Arial, sans-serif;
+    }
+
+    .screen {
+      display: none;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .screen.active { display: flex; }
+    .screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+      opacity: .28;
+      background: linear-gradient(120deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 120px 120px;
+    }
+    .eyebrow {
+      color: var(--red-bright);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Shared decorative elements */
+    .corner-mark {
+      position: absolute;
+      z-index: 3;
+      width: 32px;
+      height: 32px;
+      border-color: rgba(255,255,255,.45);
+      border-style: solid;
+    }
+    .corner-mark.tl { top: 35px; left: 42px; border-width: 1px 0 0 1px; }
+    .corner-mark.br { right: 42px; bottom: 35px; border-width: 0 1px 1px 0; }
+    .topbar {
+      position: absolute;
+      z-index: 5;
+      top: 34px;
+      left: 6vw;
+      right: 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .topbar strong { color: var(--white); font-size: 13px; letter-spacing: 1px; }
+    .topbar strong span { color: var(--red-bright); }
+
+    /* Opening */
+    #opening {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(144,16,42,.5), transparent 33%),
+        linear-gradient(125deg, var(--black), #1a0a11 65%, var(--black));
+    }
+    #opening::before {
+      content: "";
+      position: absolute;
+      width: 72vw;
+      height: 72vw;
+      max-width: 900px;
+      max-height: 900px;
+      border: 1px solid rgba(240,68,91,.3);
+      border-radius: 50%;
+      box-shadow: 0 0 0 42px rgba(215,25,56,.025), 0 0 130px rgba(215,25,56,.2), inset 0 0 100px rgba(215,25,56,.12);
+      animation: rotate 30s linear infinite;
+    }
+    #opening::after {
+      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+    .opening-content { position: relative; z-index: 2; animation: rise .9s ease both; }
+    .opening-emblem {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 50%;
+      color: var(--red-bright);
+      font-size: 25px;
+      box-shadow: 0 0 35px rgba(215,25,56,.35);
+    }
+    .opening-emblem::after {
+      content: "";
+      position: absolute;
+      width: 96px;
+      height: 96px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 50%;
+    }
+    .brand {
+      font-size: clamp(48px, 9vw, 126px);
+      font-weight: 900;
+      letter-spacing: -6px;
+      line-height: .94;
+    }
+    .brand span { color: var(--red-bright); }
+    .opening-rule { width: 130px; height: 3px; margin: 30px auto; background: var(--red-bright); box-shadow: 0 0 24px var(--red); }
+    .opening-title { font-size: clamp(14px, 1.7vw, 24px); font-weight: 700; letter-spacing: 5px; line-height: 1.6; }
+    .opening-sub { margin-top: 20px; color: var(--soft); font-size: 10px; letter-spacing: 3px; }
+    .opening-sub b { margin: 0 9px; color: var(--red-bright); }
+    .opening-foot { position: absolute; z-index: 5; bottom: 32px; left: 0; right: 0; color: #70747d; font-size: 9px; letter-spacing: 3px; }
+    .opening-foot span { margin: 0 12px; color: var(--red-bright); }
+
+    /* Information slides */
+    .info-screen {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(ellipse at center, rgba(123,15,39,.42), transparent 52%), var(--black);
+    }
+    .info-screen::before {
+      content: "";
+      position: absolute;
+      width: 55vw;
+      height: 55vw;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 50%;
+      box-shadow: 0 0 0 55px rgba(215,25,56,.025), 0 0 110px rgba(215,25,56,.16);
+    }
+    .info-content { position: relative; z-index: 2; max-width: 900px; padding: 30px; animation: rise .8s ease both; }
+    .info-icon {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(240,68,91,.55);
+      border-radius: 50%;
+      color: var(--red-bright);
+      font-size: 31px;
+      box-shadow: 0 0 0 14px rgba(215,25,56,.04), 0 0 55px rgba(215,25,56,.28);
+    }
+    .info-content h1 { margin-top: 18px; font-size: clamp(38px, 6vw, 80px); line-height: 1.02; letter-spacing: -4px; }
+    .info-content p { margin-top: 24px; color: var(--soft); font-size: clamp(12px, 1.3vw, 17px); letter-spacing: 1px; line-height: 1.8; }
+    .info-line { width: 120px; height: 3px; margin: 30px auto 0; background: var(--red-bright); box-shadow: 0 0 22px var(--red); }
+    .steps { display: flex; justify-content: center; gap: 18px; margin-top: 35px; }
+    .step { min-width: 145px; padding: 18px 16px; border: 1px solid var(--line); background: rgba(255,255,255,.035); }
+    .step b { display: block; margin-bottom: 7px; color: var(--red-bright); font-size: 22px; }
+    .step span { color: var(--soft); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* Candidate slide */
+    #candidate {
+      align-items: center;
+      padding: 7vh 9vw;
+      background: linear-gradient(115deg, var(--black), #0d0e13 52%, #1d0a11);
+    }
+    #candidate::before {
+      content: "";
+      position: absolute;
+      top: -25vh;
+      right: -13vw;
+      width: 62vw;
+      height: 150vh;
+      transform: skewX(-16deg);
+      background: linear-gradient(145deg, transparent 27%, rgba(215,25,56,.18) 70%, rgba(215,25,56,.03));
+      border-left: 1px solid rgba(240,68,91,.16);
+    }
+    .candidate-photo {
+      position: relative;
+      z-index: 2;
+      width: min(35vw, 520px);
+      height: min(72vh, 680px);
+      min-height: 380px;
+      padding: 9px;
+      transform: rotate(-1deg);
+      border: 1px solid rgba(255,255,255,.24);
+      background: rgba(255,255,255,.05);
+      box-shadow: 24px 24px 0 rgba(215,25,56,.2), 0 30px 80px #000;
+    }
+    .photo-box { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(145deg,#292b31,#0d0e12); }
+    .photo-box::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,6,9,.65), transparent 48%), linear-gradient(120deg, rgba(215,25,56,.14), transparent 40%); }
+    .photo-box img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.88) contrast(1.06); }
+    .placeholder { display: grid; height: 100%; place-items: center; color: #484c55; font-size: 110px; }
+    .candidate-info { position: relative; z-index: 3; max-width: 680px; margin-left: clamp(45px, 7vw, 115px); }
+    .candidate-info .eyebrow { margin-bottom: 23px; }
+    .candidate-name { max-width: 700px; font-size: clamp(43px, 6vw, 86px); font-weight: 900; line-height: 1.02; letter-spacing: -4px; animation: content-in .65s ease both; }
+    .candidate-code { display: inline-block; margin-top: 30px; padding: 11px 0 11px 17px; border-left: 3px solid var(--red-bright); color: var(--muted); font-size: 12px; letter-spacing: 2px; }
+    .candidate-code strong { display: block; margin-top: 6px; color: var(--white); font-size: 18px; letter-spacing: 1px; }
+    .candidate-number { display: flex; align-items: center; gap: 13px; margin-top: 62px; color: #7d828c; font-size: 10px; font-weight: 700; letter-spacing: 3px; }
+    .candidate-number b { color: var(--white); font-size: 46px; letter-spacing: -3px; }
+    .candidate-number i { color: var(--red-bright); font-size: 22px; font-style: normal; }
+    .candidate-line { width: 185px; height: 2px; margin-top: 22px; background: var(--red-bright); box-shadow: 0 0 16px var(--red); animation: grow .8s ease both; transform-origin: left; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+    @keyframes content-in { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+    @keyframes grow { from { transform: scaleX(0); } }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    @keyframes pulse { 50% { opacity: .3; transform: scale(1.08); } }
+
+    @media (max-width: 800px) {
+      .candidate-photo { width: 38vw; height: 59vh; min-height: 300px; }
+      .candidate-name { font-size: 40px; }
+      .candidate-number { margin-top: 38px; }
+      .steps { gap: 8px; }
+      .step { min-width: 110px; padding: 14px 9px; }
+    }
+    @media (max-width: 560px) {
+      .topbar { top: 18px; font-size: 7px; }
+      .brand { letter-spacing: -3px; }
+      .opening-title { letter-spacing: 2px; }
+      .opening-sub { font-size: 8px; }
+      .candidate-photo { width: 35vw; height: 48vh; min-height: 260px; }
+      .candidate-info { margin-left: 25px; }
+      .candidate-name { font-size: 30px; letter-spacing: -1px; }
+      .candidate-code { margin-top: 20px; font-size: 9px; }
+      .candidate-number { margin-top: 28px; }
+      .candidate-number b { font-size: 30px; }
+      .steps { flex-wrap: wrap; }
+      .step { min-width: 125px; }
+    }
+  </style>
 </head>
 <body>
-<section class="screen active" id="opening">
-  <div class="opening-content"><div class="opening-mark">✦</div><div class="eyebrow">Election Night 2025</div><div class="brand">ID42NER <span>SUMUT</span></div><div class="opening-rule"></div><div class="opening-title">PEMILIHAN KETUA CHAPTER<br>SUMATERA UTARA</div><div class="opening-sub">MALAM APRESIASI <b>•</b> KEBERSAMAAN <b>•</b> PERUBAHAN</div></div>
-  <div class="opening-foot">ID42NER SUMATERA UTARA <span>—</span> PRESENTASI PEMILIHAN <span>—</span> 2025</div>
-</section>
-<section class="screen" id="candidate">
-  <div class="candidate-top"><strong>ID42NER <b>SUMUT</b></strong><span>PEMILIHAN KETUA CHAPTER &nbsp; / &nbsp; <b>LIVE</b></span></div>
-  <div class="candidate-frame"><div class="photo-box" id="photoBox"></div></div>
-  <div class="candidate-info"><div class="live-badge"><i></i> Voting sedang berlangsung</div><div class="eyebrow">Calon Ketua Chapter</div><div class="candidate-name" id="candidateName"></div><div class="candidate-code">Nomor anggota<strong id="candidateCode"></strong></div><div class="candidate-number"><b id="candidateCurrent">01</b><i>/</i> 19 &nbsp; • &nbsp; ID42NER SUMUT</div><div class="candidate-line"></div><div class="candidate-status">Suara sedang diproses</div></div>
-</section>
-<section class="screen" id="dashboard"><div class="live-screen"><div class="live-mark">✓</div><div class="eyebrow">ID42NER SUMATERA UTARA</div><h1>Voting Sedang Berlangsung</h1><p>Mohon menunggu · suara sedang diproses</p><div class="live-line"></div></div></section>
-<script>
-const candidates=[
- {no:1,name:'Om Dani',code:'F1717',photo:'calon1.jpg'},{no:2,name:'Om H.Nurhadi',code:'F1493',photo:'calon2.jpg'},{no:3,name:'Om Hasyim',code:'F1396',photo:'calon3.png'},{no:4,name:'Om Hendra Sinaga',code:'F1812',photo:'calon4.jpg'},{no:5,name:'Om Umri',code:'F2216',photo:'calon5.jpg'},{no:6,name:'Om Tantra Deska',code:'F1884',photo:'calon6.png'},{no:7,name:'Om Ronald',code:'F1488',photo:'calon7.jpg'},{no:8,name:'Om Afdhal',code:'F1798',photo:'calon8.jpeg'},{no:9,name:'Om Hery ZZ',code:'F2850',photo:'calon9.jpeg'},{no:10,name:'Om Wansa/Endri',code:'F965',photo:'calon10.jpg'},{no:11,name:'Om Erick/Sulaiman',code:'F1702',photo:'calon11.jpeg'},{no:12,name:'Om Husni',code:'F1452',photo:'calon12.jpeg'},{no:13,name:'Om Jefrie Himawan',code:'F1363',photo:'calon13.jpg'},{no:14,name:'Om Dicky',code:'F2177',photo:'calon14.jpg'},{no:15,name:'Om Dedy Ginting',code:'F1558',photo:'calon15.jpg'},{no:16,name:'Om Hendra Martin',code:'F2552',photo:'calon16.jpg'},{no:17,name:'Om Nanang',code:'F2606',photo:'calon17.jpg'},{no:18,name:'Om Try Sutrisno',code:'F2782',photo:'calon18.jpg'},{no:19,name:'Om Wyne Purba',code:'F2913',photo:'calon19.jpg'}];
-let current=0;let candidateTimer;let presentationTimer;const $=id=>document.getElementById(id);
-function renderCandidate(){const c=candidates[current];$('candidateCurrent').textContent=String(c.no).padStart(2,'0');$('candidateName').textContent=c.name;$('candidateCode').textContent=c.code;const box=$('photoBox');box.innerHTML='';const img=document.createElement('img');img.src=c.photo;img.alt=c.name;img.onerror=()=>{box.innerHTML='';const fallback=document.createElement('div');fallback.className='placeholder';fallback.textContent='●';box.appendChild(fallback)};box.appendChild(img)}
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active')}
-function nextCandidate(){current=(current+1)%candidates.length;renderCandidate()}function prevCandidate(){current=(current-1+candidates.length)%candidates.length;renderCandidate()}
-function startPresentation(){clearInterval(candidateTimer);clearTimeout(presentationTimer);showScreen('dashboard');presentationTimer=setTimeout(()=>{showScreen('candidate');renderCandidate();candidateTimer=setInterval(nextCandidate,7000)},5000)}
-function candidateMode(step){clearTimeout(presentationTimer);showScreen('candidate');step==='next'?nextCandidate():step==='prev'?prevCandidate():renderCandidate();clearInterval(candidateTimer);candidateTimer=setInterval(nextCandidate,7000)}
-renderCandidate();startPresentation();
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')candidateMode('next');else if(e.key==='ArrowLeft')candidateMode('prev');else if(e.key==='1'){clearInterval(candidateTimer);clearTimeout(presentationTimer);showScreen('opening')}else if(e.key==='2')candidateMode();else if(e.key==='3')startPresentation()});
-</script>
+  <section class="screen active" id="opening">
+    <span class="corner-mark tl"></span><span class="corner-mark br"></span>
+    <div class="opening-content">
+      <div class="opening-emblem">✦</div>
+      <div class="eyebrow">Election Night 2025</div>
+      <div class="brand">ID42NER <span>SUMUT</span></div>
+      <div class="opening-rule"></div>
+      <div class="opening-title">PEMILIHAN KETUA CHAPTER<br>SUMATERA UTARA</div>
+      <div class="opening-sub">MALAM APRESIASI <b>•</b> KEBERSAMAAN <b>•</b> PERUBAHAN</div>
+    </div>
+    <div class="opening-foot">ID42NER SUMATERA UTARA <span>—</span> PRESENTASI PEMILIHAN <span>—</span> 2025</div>
+  </section>
+
+  <section class="screen info-screen" id="ready">
+    <div class="topbar"><strong>ID42NER <span>SUMUT</span></strong><span>RANGKAIAN ACARA</span></div>
+    <div class="info-content">
+      <div class="info-icon">01</div>
+      <div class="eyebrow">Tahap pertama</div>
+      <h1>Siap Memilih</h1>
+      <p>Kenali setiap calon ketua chapter.<br>Simak visi dan misi yang akan disampaikan.</p>
+      <div class="info-line"></div>
+    </div>
+  </section>
+
+  <section class="screen info-screen" id="voting">
+    <div class="topbar"><strong>ID42NER <span>SUMUT</span></strong><span>PEMILIHAN KETUA CHAPTER</span></div>
+    <div class="info-content">
+      <div class="info-icon">✓</div>
+      <div class="eyebrow">Agenda utama</div>
+      <h1>Voting Dimulai</h1>
+      <p>Gunakan hak suara dengan bijak.<br>Satu pilihan untuk masa depan chapter.</p>
+      <div class="steps"><div class="step"><b>01</b><span>Kenali calon</span></div><div class="step"><b>02</b><span>Tentukan pilihan</span></div><div class="step"><b>03</b><span>Gunakan hak suara</span></div></div>
+    </div>
+  </section>
+
+  <section class="screen info-screen" id="processing">
+    <div class="topbar"><strong>ID42NER <span>SUMUT</span></strong><span>LIVE PRESENTATION</span></div>
+    <div class="info-content">
+      <div class="info-icon" style="animation:pulse 1.8s ease-in-out infinite">•</div>
+      <div class="eyebrow">Live update</div>
+      <h1>Voting Berlangsung</h1>
+      <p>Silakan mengikuti rangkaian pemaparan<br>visi dan misi dari setiap calon.</p>
+      <div class="info-line"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="candidate">
+    <div class="topbar"><strong>ID42NER <span>SUMUT</span></strong><span>PEMILIHAN KETUA CHAPTER <b style="color:var(--red-bright)">/ LIVE</b></span></div>
+    <div class="candidate-photo"><div class="photo-box" id="photoBox"></div></div>
+    <div class="candidate-info">
+      <div class="eyebrow">Calon Ketua Chapter</div>
+      <div class="candidate-name" id="candidateName"></div>
+      <div class="candidate-code">Nomor anggota<strong id="candidateCode"></strong></div>
+      <div class="candidate-number"><b id="candidateCurrent">01</b><i>/</i> 19 <span>•</span> ID42NER SUMUT</div>
+      <div class="candidate-line"></div>
+    </div>
+  </section>
+
+  <script>
+    const candidates = [
+      { no: 1, name: 'Om Dani', code: 'F1717', photo: 'calon1.jpg' },
+      { no: 2, name: 'Om H.Nurhadi', code: 'F1493', photo: 'calon2.jpg' },
+      { no: 3, name: 'Om Hasyim', code: 'F1396', photo: 'calon3.png' },
+      { no: 4, name: 'Om Hendra Sinaga', code: 'F1812', photo: 'calon4.jpg' },
+      { no: 5, name: 'Om Umri', code: 'F2216', photo: 'calon5.jpg' },
+      { no: 6, name: 'Om Tantra Deska', code: 'F1884', photo: 'calon6.png' },
+      { no: 7, name: 'Om Ronald', code: 'F1488', photo: 'calon7.jpg' },
+      { no: 8, name: 'Om Afdhal', code: 'F1798', photo: 'calon8.jpeg' },
+      { no: 9, name: 'Om Hery ZZ', code: 'F2850', photo: 'calon9.jpeg' },
+      { no: 10, name: 'Om Wansa/Endri', code: 'F965', photo: 'calon10.jpg' },
+      { no: 11, name: 'Om Erick/Sulaiman', code: 'F1702', photo: 'calon11.jpeg' },
+      { no: 12, name: 'Om Husni', code: 'F1452', photo: 'calon12.jpeg' },
+      { no: 13, name: 'Om Jefrie Himawan', code: 'F1363', photo: 'calon13.jpg' },
+      { no: 14, name: 'Om Dicky', code: 'F2177', photo: 'calon14.jpg' },
+      { no: 15, name: 'Om Dedy Ginting', code: 'F1558', photo: 'calon15.jpg' },
+      { no: 16, name: 'Om Hendra Martin', code: 'F2552', photo: 'calon16.jpg' },
+      { no: 17, name: 'Om Nanang', code: 'F2606', photo: 'calon17.jpg' },
+      { no: 18, name: 'Om Try Sutrisno', code: 'F2782', photo: 'calon18.jpg' },
+      { no: 19, name: 'Om Wyne Purba', code: 'F2913', photo: 'calon19.jpg' }
+    ];
+
+    const $ = (id) => document.getElementById(id);
+    let current = 0;
+    let slideTimer;
+    let sequenceTimer;
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach((screen) => screen.classList.remove('active'));
+      $(id).classList.add('active');
+    }
+
+    function renderCandidate() {
+      const candidate = candidates[current];
+      $('candidateCurrent').textContent = String(candidate.no).padStart(2, '0');
+      $('candidateName').textContent = candidate.name;
+      $('candidateCode').textContent = candidate.code;
+
+      const box = $('photoBox');
+      box.innerHTML = '';
+      const image = document.createElement('img');
+      image.src = candidate.photo;
+      image.alt = candidate.name;
+      image.onerror = () => {
+        box.innerHTML = '<div class="placeholder">●</div>';
+      };
+      box.appendChild(image);
+    }
+
+    function nextCandidate() {
+      current = (current + 1) % candidates.length;
+      renderCandidate();
+    }
+
+    function previousCandidate() {
+      current = (current - 1 + candidates.length) % candidates.length;
+      renderCandidate();
+    }
+
+    function stopTimers() {
+      clearInterval(slideTimer);
+      clearTimeout(sequenceTimer);
+    }
+
+    function candidateMode(direction) {
+      stopTimers();
+      showScreen('candidate');
+      if (direction === 'next') nextCandidate();
+      if (direction === 'previous') previousCandidate();
+      renderCandidate();
+      slideTimer = setInterval(nextCandidate, 7000);
+    }
+
+    function startSequence() {
+      stopTimers();
+      showScreen('opening');
+      sequenceTimer = setTimeout(() => {
+        showScreen('ready');
+        sequenceTimer = setTimeout(() => {
+          showScreen('voting');
+          sequenceTimer = setTimeout(() => {
+            showScreen('processing');
+            sequenceTimer = setTimeout(() => candidateMode(), 4500);
+          }, 5500);
+        }, 4500);
+      }, 6500);
+    }
+
+    renderCandidate();
+    startSequence();
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') candidateMode('next');
+      else if (event.key === 'ArrowLeft') candidateMode('previous');
+      else if (event.key === '1') { stopTimers(); showScreen('opening'); }
+      else if (event.key === '2') { stopTimers(); showScreen('ready'); }
+      else if (event.key === '3') { stopTimers(); showScreen('voting'); }
+      else if (event.key === '4') { stopTimers(); showScreen('processing'); }
+    });
+  </script>
 </body>
 </html>
